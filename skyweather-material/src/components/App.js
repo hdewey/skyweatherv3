@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
     container: {
         display: 'flex',
         justifyContent: 'center'
+    },
+    addPadding: {
+        padding: '1vh'
     }
 }));
 
@@ -30,8 +33,8 @@ export default function App() {
                 <Grid item xs={12}>
                     <Header />
                 </Grid>
-                <Grid className={classes.screen} item xs={8}>
-                    <Paper >
+                <Grid className={classes.screen} item xs={10}>
+                    <Paper className={classes.addPadding}>
                         <Screen />
                     </Paper>
                 </Grid>

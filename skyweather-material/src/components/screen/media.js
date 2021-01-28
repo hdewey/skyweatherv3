@@ -8,7 +8,6 @@ import { Typography, Paper } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: '#000',
     },
     content: {
         width: '100%',
