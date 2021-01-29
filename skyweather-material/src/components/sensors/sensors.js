@@ -19,7 +19,6 @@ export default function Sensors (props) {
         <div className={classes.root}>
             <Paper elevation={3} className={classes.timelapseCards}>
                 <Grid direction="row" justify="center" alignItems="center">
-
                     <Grid item xs={2}>
                         <Card>
                             <CardContent>
