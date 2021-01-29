@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 
 import Header from './header/header'
 import Screen from './screen/screen'
+import Sensors from './sensors/sensors'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,7 +30,7 @@ export default function App() {
 
     return (
         <div className={classes.root}>
-            <Grid container className={classes.container} spacing={10}>
+            <Grid container className={classes.container} spacing={3}>
                 <Grid item xs={12}>
                     <Header />
                 </Grid>
@@ -39,7 +40,7 @@ export default function App() {
                     </Paper>
                 </Grid>
                 <Grid item xs={5}>
-                    <Paper className={classes.paper}>sensors</Paper>
+                    <Sensors />
                 </Grid>
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>xs=3</Paper>

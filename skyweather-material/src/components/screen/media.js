@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Typography, Paper } from '@material-ui/core';
+// import { Typography, Paper } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,27 +20,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Media (props) {
 
-    let d = new Date();
-    let day = '25';
-    let month = d.getMonth();
-    let year = d.getFullYear();
-
-    const [targetDay, setDay] = useState({value: `${month}-${day}-${year}`})
-
     const classes = useStyles();
 
-    const showContent = (isLive) => {
+    console.log(props.targetDay)
+
+    const showContent = (isLive, target) => {
 
         if (isLive) {
             let url = "https://storage.googleapis.com/raw_weather_photos/recent";
             return (
-                <img className={classes.content} src={url} alt="no live image, sorry." />
+                <img className={classes.content} src={url} alt="" />
             )
         } else {
             let url = "https://storage.googleapis.com/sstx-timelapse/"
             return (
                 <video className={classes.content} autoPlay loop controls>
-                    <source src={`${url + targetDay.value}.mp4`} type='video/mp4' />
+                    <source src={`${url + target}.mp4`} type='video/mp4' />
                 </video>
             )
         }
@@ -50,7 +45,7 @@ export default function Media (props) {
     return (
         <div className={classes.container}>
             <div className={classes.root}>
-                {showContent(props.live)}
+                {showContent(props.live, props.targetDay)}
             </div>
         </div>
     )
