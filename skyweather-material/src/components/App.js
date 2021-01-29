@@ -34,7 +34,7 @@ export default function App() {
                 <Grid item xs={12}>
                     <Header />
                 </Grid>
-                <Grid className={classes.screen} item xs={10}>
+                <Grid className={classes.screen} item xs={11}>
                     <Paper className={classes.addPadding}>
                         <Screen />
                     </Paper>

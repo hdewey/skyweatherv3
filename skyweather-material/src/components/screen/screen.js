@@ -31,7 +31,7 @@ export default function Screen () {
 
     const [media, setMedia] = useState({live: true})
 
-    const yesterday = moment().subtract(1, 'days');
+    const yesterday = moment().subtract(2, 'days');
 
     const [selectedDay, setDay] = useState({time: yesterday.format('M-D-YYYY'), text: yesterday.format('MMM Do')})
 
@@ -46,9 +46,9 @@ export default function Screen () {
         direction="row"
         justify="center"
         alignItems="flex-start"
-        spacing={10}
+        spacing={1}
         >
-            <Grid item container xs={2} spacing={1} direction="column" justify="flex-start" alignItems="center">
+            <Grid item container xs={3} spacing={3} direction="column" justify="flex-start" alignItems="center">
                     <Grid item xs={12}>
                         <Card className={classes.nowViewing} >
                             <CardContent>
@@ -63,11 +63,13 @@ export default function Screen () {
                         </ButtonGroup>
                     </Grid>
 
-                    <Grid item xs={10} spacing={3}>
+                    <Grid container item xs={12} spacing={3} direction="row" justify="flex-start" alignItems="flex-start">
                         <div className={classes.timelapseCards} display={!media.live ? 'active' : 'active'}>
                             {dates.map((days) => {
                                 return (
+                                <Grid item xs={12}>
                                     <Date text={days.text} value={days.time}/>
+                                </Grid>
                                 )
                             })}
                         </div>
