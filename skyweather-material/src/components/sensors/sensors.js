@@ -1,40 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { IconButton, Paper, Typography, Grid, Card, CardContent  } from '@material-ui/core';
+import Cards from './cards'
+
+import { Paper } from '@material-ui/core';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
-    }
+    },
 }));
 
 
 export default function Sensors (props) {
 
     const classes = useStyles();
+    
+    const [data,setData] = useState([]);
 
+    const sensorData = () => {
+
+        fetch('https://storage.googleapis.com/raw_weather_photos/recentData.json',
+        {
+            headers : {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+             }
+        })
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(myJson) {
+            console.log(myJson)
+            setData(myJson);
+        });
+    }
+    
+
+    useEffect( () => {
+        sensorData()
+    }, [])
 
     return (
         <div className={classes.root}>
             <Paper elevation={3} className={classes.timelapseCards}>
-                <Grid direction="row" justify="center" alignItems="center">
-                    <Grid item xs={2}>
-                        <Card>
-                            <CardContent>
-                                Temp:
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Card>
-                            <CardContent>
-                                Humidity:
-                            </CardContent>
-                        </Card>
-                    </Grid>
-
-                </Grid>
+                    <Cards data={data}/>
             </Paper>
         </div>
     )

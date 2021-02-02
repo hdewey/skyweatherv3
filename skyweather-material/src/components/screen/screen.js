@@ -5,25 +5,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 
 import Media from './media'
-import { Grid, Button, ButtonGroup, Card, CardContent, Typography} from '@material-ui/core';
+import { Grid, Button, ButtonGroup, Card, CardContent, Typography, Paper, IconButton} from '@material-ui/core';
 
-import Date from './dates';
+import LinkedCameraIcon from '@material-ui/icons/LinkedCamera';
+import MovieCreationIcon from '@material-ui/icons/MovieCreation';
+import TrackChangesIcon from '@material-ui/icons/TrackChanges';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-    },
-    nav: {
-        // height: '100%',
-        // width: '30%',
-    },
-    buttonToggle: {
-        border: '0'
-    },
-
-    active: {
-        backgroundColor: '#b80041'
-    }
-}));
+const spartan = {
+    red: '#D61D42',
+    purple: '#4F2D7F'
+}
 
 export default function Screen () {
 
@@ -31,14 +22,102 @@ export default function Screen () {
 
     const [media, setMedia] = useState({live: true})
 
+    const [radar, setRadar] = useState({live: false})
+
     const yesterday = moment().subtract(1, 'days');
 
     const [selectedDay, setDay] = useState({time: yesterday.format('M-D-YYYY'), text: yesterday.format('MMM Do')})
+
+    
+    const useStyles = makeStyles((theme) => ({
+        root: {
+        },
+        buttonToggle: {
+            border: '0'
+        },
+        timelapseCards: {
+            margin: '1vh',
+            padding: '.5vh',
+
+        },
+        centerText: {
+            textAlign: 'center'
+        },
+        icon: {
+            padding: '1%',
+            fontSize: '2vh',
+            margin: '0',
+            color: spartan.red,
+        },
+        
+        selectedRed: {
+            backgroundColor: spartan.red,
+        },
+        selectedPurple: {
+            color: spartan.purple,
+        }
+    }));
+
 
     const classes = useStyles();
 
     const liveActive = `${media.live ? classes.active : null}`
     const timeActive = `${!media.live ? classes.active : null}`
+
+    const liveClicked = () => {
+        setMedia({live: true});
+        setRadar({live: false});
+        setDay({
+            time: null,
+            text: null
+        });
+    }
+
+    const radarClicked = () => {
+        setRadar({live: true});
+        setMedia({live: false});
+        setDay({
+            time: null,
+            text: null
+        });
+    }
+
+    const timelapseClicked = (day) => {
+        setMedia({live: false});
+        setRadar({live: false});
+        setDay({
+            time: day.time,
+            text: day.text
+        });
+    }
+
+    const paperColor = (time) => {
+        if (time === selectedDay.time && !media.live) {
+            return (classes.selectedRed)
+        } else if (!time) {
+            if (media.live) {
+                return (classes.selectedRed)
+            }
+        } else if (time === 'radar') {
+            if (radar.live === true) {
+                return classes.selectedRed
+            }
+        }
+    }
+
+    const iconColor = (time) => {
+        if (time === selectedDay.time && !media.live) {
+            return (classes.selectedPurple)
+        } else if (!time) {
+            if (media.live) {
+                return classes.selectedPurple
+            }
+        } else if (time === 'radar') {
+            if (radar.live) {
+                return classes.selectedPurple
+            }
+        }
+    }
     
     return (
         <Grid
@@ -46,36 +125,54 @@ export default function Screen () {
         direction="row"
         justify="center"
         alignItems="flex-start"
-        spacing={10}
+        spacing={1}
         >
-            <Grid item container xs={2} spacing={1} direction="column" justify="flex-start" alignItems="center">
-                    <Grid item xs={12}>
-                        <Card className={classes.nowViewing} >
-                            <CardContent>
-                                <Typography className={classes.title} color="textPrimary">
-                                Viewing: {selectedDay.text}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                        <ButtonGroup variant="contained" color="secondary" aria-label="contained secondary button group">
-                            <Button className={`${classes.buttonToggle} ${liveActive}`} onClick={() => setMedia({live:true})}>Live</Button>
-                            <Button className={`${classes.buttonToggle} ${timeActive}`} onClick={() => setMedia({live:false})}>Timelapse</Button>
-                        </ButtonGroup>
-                    </Grid>
+            <Grid item container xs={2} spacing={3} direction="column" justify="flex-start" alignItems="center">
 
-                    <Grid item xs={10} spacing={3}>
-                        <div className={classes.timelapseCards} display={!media.live ? 'active' : 'active'}>
-                            {dates.map((days) => {
-                                return (
-                                    <Date text={days.text} value={days.time}/>
-                                )
-                            })}
-                        </div>
+                    <Grid container item xs={12} direction="row" justify="flex-start" alignItems="flex-start">
+                            <Grid item xs={10}>
+                                <Paper elevation={3} className={`${classes.timelapseCards} ${paperColor(false)}`}>
+                                        <Typography className={classes.centerText}>
+                                        {"Live"}
+                                            <IconButton className={classes.iconButton} onClick={() => {liveClicked()}}>
+                                                <LinkedCameraIcon className={`${classes.icon} ${iconColor(false)}`} />
+                                            </IconButton>
+                                        </Typography>
+                                </Paper>
+                            </Grid>
+                            
+                            <Grid item xs={10}>
+                                <Paper elevation={3} className={`${classes.timelapseCards} ${paperColor('radar')}`}>
+                                        <Typography className={classes.centerText}>
+                                        {"Radar"}
+                                            <IconButton className={classes.iconButton} onClick={() => {radarClicked()}}>
+                                                <TrackChangesIcon className={`${classes.icon} ${iconColor('radar')}`} />
+                                            </IconButton>
+                                        </Typography>
+                                </Paper>
+                            </Grid>
+                            
+                            {
+                                dates.map((day) => {
+                                    return (
+                                        <Grid item xs={10} key={day.text}>
+                                            <Paper elevation={3} className={`${classes.timelapseCards} ${paperColor(day.time)}`}>
+                                                    <Typography className={classes.centerText}>
+                                                    {day.text}
+                                                        <IconButton onClick={() => {timelapseClicked(day)}}>
+                                                            <MovieCreationIcon className={`${classes.icon} ${iconColor(day.time)}`} />
+                                                        </IconButton>
+                                                    </Typography>
+                                            </Paper>
+                                        </Grid>
+                                    )
+                                })
+                            }
                     </Grid>
             </Grid>
 
             <Grid item container xs={9}>
-                <Media live={media.live} targetDay={selectedDay.time} />
+                <Media live={media.live} targetDay={selectedDay.time} radar={radar.live}/>
             </Grid>
         </Grid>
     )
