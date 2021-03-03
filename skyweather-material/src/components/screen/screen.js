@@ -18,8 +18,6 @@ const spartan = {
 
 export default function Screen () {
 
-    // LUNE
-
     const [media, setMedia] = useState({live: true})
 
     const [radar, setRadar] = useState({live: false})
@@ -28,7 +26,6 @@ export default function Screen () {
 
     const [selectedDay, setDay] = useState({time: yesterday.format('M-D-YYYY'), text: yesterday.format('MMM Do')})
 
-    
     const useStyles = makeStyles((theme) => ({
         root: {
         },
@@ -60,9 +57,6 @@ export default function Screen () {
 
 
     const classes = useStyles();
-
-    const liveActive = `${media.live ? classes.active : null}`
-    const timeActive = `${!media.live ? classes.active : null}`
 
     const liveClicked = () => {
         setMedia({live: true});
@@ -141,17 +135,6 @@ export default function Screen () {
                                 </Paper>
                             </Grid>
                             
-                            <Grid item xs={10}>
-                                <Paper elevation={3} className={`${classes.timelapseCards} ${paperColor('radar')}`}>
-                                        <Typography className={classes.centerText}>
-                                        {"Radar"}
-                                            <IconButton className={classes.iconButton} onClick={() => {radarClicked()}}>
-                                                <TrackChangesIcon className={`${classes.icon} ${iconColor('radar')}`} />
-                                            </IconButton>
-                                        </Typography>
-                                </Paper>
-                            </Grid>
-                            
                             {
                                 dates.map((day) => {
                                     return (
@@ -168,10 +151,22 @@ export default function Screen () {
                                     )
                                 })
                             }
+
+
+                            <Grid item xs={10}>
+                                <Paper elevation={3} className={`${classes.timelapseCards} ${paperColor('radar')}`}>
+                                        <Typography className={classes.centerText}>
+                                        {"Radar"}
+                                            <IconButton className={classes.iconButton} onClick={() => {radarClicked()}}>
+                                                <TrackChangesIcon className={`${classes.icon} ${iconColor('radar')}`} />
+                                            </IconButton>
+                                        </Typography>
+                                </Paper>
+                            </Grid>
                     </Grid>
             </Grid>
 
-            <Grid item container xs={9}>
+            <Grid item container xs={10}>
                 <Media live={media.live} targetDay={selectedDay.time} radar={radar.live}/>
             </Grid>
         </Grid>

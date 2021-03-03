@@ -26,7 +26,6 @@ export default function Media (props) {
 
     const classes = useStyles();
 
-
     const showContent = () => {
 
         if (props.live) {
@@ -42,7 +41,7 @@ export default function Media (props) {
             )
         } else if (props.radar) {
             return (
-                <iframe  height={'670'} width={10720/9} className={classes.rounded} src="https://embed.windy.com/embed2.html?lat=30.305&lon=-97.765&detailLat=30.288&detailLon=-97.764&width=670&height=1191&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1" frameborder="0"></iframe>
+                <iframe  height='575' width='975' title={'3'} className={classes.rounded} src="https://embed.windy.com/embed2.html?lat=30.305&lon=-97.765&detailLat=30.288&detailLon=-97.764&width=670&height=1191&zoom=11&level=surface&overlay=rain&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1" frameborder="0"></iframe>
             )
         }
     }
